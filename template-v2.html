@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jurnal Chart — Referensi Setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#141a21; --card:#1d2733; --card2:#232d3b; --line:#2c3949;
+    --txt:#e8edf3; --muted:#93a3b5; --faint:#647689;
+    --mint:#30deab; --coral:#ff5972; --amber:#ffb84d; --blue:#4da3ff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--txt);font-family:'Plus Jakarta Sans',system-ui,sans-serif;padding:0 18px 60px}
+  .wrap{max-width:1080px;margin:0 auto}
+  .topbar{
+    position:sticky;top:0;z-index:20;background:rgba(20,26,33,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);margin:0 -18px;padding:12px 18px;
+  }
+  .topbar .in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .brand{font-size:19px;font-weight:800;letter-spacing:-.02em}
+  .brand .accent{color:var(--mint)}
+  nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+  nav a{
+    color:var(--muted);text-decoration:none;font-size:13.5px;font-weight:600;
+    padding:7px 12px;border-radius:999px;border:1px solid transparent;
+  }
+  nav a:hover{color:var(--txt);border-color:var(--line);background:var(--card)}
+  nav a.here{color:#0b1512;background:var(--mint);border-color:var(--mint)}
+  header{padding-top:26px}
+  header p{color:var(--muted);margin-top:6px;font-size:14px;line-height:1.55;max-width:640px}
+  .stats{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 18px;min-width:120px}
+  .stat .n{font-size:22px;font-weight:800}
+  .stat .l{font-size:12px;color:var(--faint);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+  .stat.mint .n{color:var(--mint)} .stat.blue .n{color:var(--blue)}
+  .searchbar{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+  .searchbar input{
+    flex:1;min-width:220px;background:var(--card);border:1px solid var(--line);border-radius:12px;
+    color:var(--txt);padding:12px 16px;font-size:15px;font-family:inherit;outline:none;
+  }
+  .searchbar input:focus{border-color:var(--mint)}
+  .chips{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .chips .lbl{font-size:12px;color:var(--faint);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-right:2px;min-width:74px}
+  .chip{
+    background:var(--card);border:1px solid var(--line);color:var(--muted);border-radius:999px;
+    padding:6px 13px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;
+  }
+  .chip:hover{color:var(--txt);border-color:var(--faint)}
+  .chip.on{background:var(--mint);border-color:var(--mint);color:#0b1512}
+  .chip.kind.on{background:var(--amber);border-color:var(--amber);color:#191104}
+  .chip.tag.on{background:var(--blue);border-color:var(--blue);color:#0b1220}
+  .count{margin-top:18px;color:var(--faint);font-size:13px}
+  .grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px;align-items:start}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:border-color .15s, transform .15s}
+  .card:hover{border-color:var(--faint);transform:translateY(-2px)}
+  .card .cover{position:relative;background:#0d1117}
+  .card .cover img{width:100%;height:auto;display:block}
+  .badge{
+    position:absolute;top:10px;left:10px;font-size:11.5px;font-weight:800;letter-spacing:.03em;
+    padding:4px 10px;border-radius:999px;background:rgba(11,21,18,.85);color:var(--mint);border:1px solid rgba(48,222,171,.5);
+  }
+  .badge.pola{color:var(--blue);border-color:rgba(77,163,255,.5);background:rgba(11,18,32,.85)}
+  .card .body{padding:15px 18px 17px;display:flex;flex-direction:column;gap:8px}
+  .card h2{font-size:16.5px;font-weight:800;letter-spacing:-.01em}
+  .card h2 .tf{color:var(--mint)}
+  .meta{color:var(--faint);font-size:12.5px;font-weight:600}
+  .row{font-size:13.5px;line-height:1.55;color:var(--muted)}
+  .row b{color:var(--txt);font-weight:700}
+  .clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .row.lesson{color:var(--txt);background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+  .row.lesson b{color:var(--amber)}
+  .tags{display:flex;gap:6px;flex-wrap:wrap}
+  .tg{font-size:12px;font-weight:700;color:var(--blue);background:rgba(77,163,255,.1);border:1px solid rgba(77,163,255,.25);padding:3px 9px;border-radius:999px;cursor:pointer}
+  .open{font-size:12.5px;font-weight:700;color:var(--mint)}
+  .empty{grid-column:1/-1;text-align:center;color:var(--faint);padding:48px 0;font-size:15px}
+  footer{margin-top:44px;color:var(--faint);font-size:12.5px;text-align:center;line-height:1.7}
+  .modal{position:fixed;inset:0;background:rgba(5,8,11,.9);display:none;z-index:60;overflow-y:auto;padding:22px 14px}
+  .modal.open{display:block}
+  .panel{max-width:860px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .panel .phead{display:flex;align-items:flex-start;gap:12px;padding:18px 22px 6px}
+  .panel h2{font-size:21px;font-weight:800;letter-spacing:-.01em}
+  .panel h2 .tf{color:var(--mint)}
+  .x{margin-left:auto;background:var(--card2);border:1px solid var(--line);color:var(--txt);width:36px;height:36px;border-radius:50%;font-size:17px;cursor:pointer;flex:none}
+  .panel .meta{padding:0 22px}
+  .panel img{width:100%;height:auto;display:block;margin-top:14px;background:#0d1117}
+  .panel .pbody{padding:18px 22px 8px;display:flex;flex-direction:column;gap:14px}
+  .fld .k{font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--faint);margin-bottom:4px}
+  .fld .v{font-size:14.5px;line-height:1.65;color:var(--muted)}
+  .fld.lesson .k{color:var(--amber)} .fld.lesson .v{color:var(--txt)}
+  .pnav{display:flex;gap:10px;padding:14px 22px 20px}
+  .pnav button{
+    flex:1;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:12px;
+    padding:11px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;
+  }
+  .pnav button:disabled{opacity:.35;cursor:default}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="in">
+  <div class="brand">📈 Jurnal <span class="accent">Chart</span></div>
+  <nav>
+    <a class="here" href="./">Jurnal Chart</a>
+    <a href="https://chospace.github.io/trading-journal/" target="_blank" rel="noopener">Jurnal Trading ↗</a>
+    <a href="https://chospace.github.io/100-challenge/" target="_blank" rel="noopener">100 Challenge ↗</a>
+    <a href="https://chospace.github.io/briefspace/" target="_blank" rel="noopener">Briefspace ↗</a>
+    <a href="https://chospace.github.io/" target="_blank" rel="noopener">Blog ↗</a>
+  </nav>
+</div></div>
+
+<div class="wrap">
+  <header>
+    <p>Arsip screenshot chart + catatan terstruktur buat referensi setup dan pola yang berulang. Klik kartu buat baca detail lengkapnya.</p>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="searchbar">
+    <input id="q" type="search" placeholder="Cari: USOIL, extend, exit, SL digeser, 0,618…">
+  </div>
+  <div class="chips" id="kindChips"><span class="lbl">Jenis</span></div>
+  <div class="chips" id="instChips"><span class="lbl">Instrumen</span></div>
+  <div class="chips" id="tagChips"><span class="lbl">Tag</span></div>
+
+  <div class="count" id="count"></div>
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    Jurnal chart pribadi — dicatat apa adanya, termasuk yang meleset.<br>
+    Fibo: konvensi Cho (0% di high, entry turun dari high, extension negatif di atas high).
+  </footer>
+</div>
+
+<div class="modal" id="modal"><div class="panel" id="panel"></div></div>
+
+<script>
+var DATA = /*__DATA__*/;
+
+var qEl = document.getElementById('q');
+var grid = document.getElementById('grid');
+var countEl = document.getElementById('count');
+var activeKind = null, activeInst = null, activeTag = null;
+var currentList = [], currentIdx = -1;
+
+var KIND_LABEL = { trade: 'Review Trade', pola: 'Arsip Pola' };
+
+function uniq(key){
+  var s = [], seen = {};
+  DATA.forEach(function(d){
+    var vals = key === 'tags' ? d.tags : [d[key]];
+    vals.forEach(function(v){ if(!seen[v]){ seen[v] = 1; s.push(v); } });
+  });
+  return s.sort();
+}
+
+function buildChips(){
+  var kc = document.getElementById('kindChips');
+  Object.keys(KIND_LABEL).forEach(function(k){
+    var b = document.createElement('button');
+    b.className = 'chip kind'; b.dataset.kind = k; b.textContent = KIND_LABEL[k];
+    b.onclick = function(){ activeKind = (activeKind === k ? null : k); render(); };
+    kc.appendChild(b);
+  });
+  var ic = document.getElementById('instChips');
+  uniq('instrument').forEach(function(v){
+    var b = document.createElement('button');
+    b.className = 'chip'; b.textContent = v;
+    b.onclick = function(){ activeInst = (activeInst === v ? null : v); render(); };
+    ic.appendChild(b);
+  });
+  var tc = document.getElementById('tagChips');
+  uniq('tags').forEach(function(v){
+    var b = document.createElement('button');
+    b.className = 'chip tag'; b.textContent = '#' + v;
+    b.onclick = function(){ activeTag = (activeTag === v ? null : v); render(); };
+    tc.appendChild(b);
+  });
+  var st = document.getElementById('stats');
+  var trades = DATA.filter(function(d){ return d.kind === 'trade'; }).length;
+  var polas = DATA.filter(function(d){ return d.kind === 'pola'; }).length;
+  st.innerHTML =
+    '<div class="stat"><div class="n">' + DATA.length + '</div><div class="l">Total entri</div></div>' +
+    '<div class="stat mint"><div class="n">' + trades + '</div><div class="l">Review trade</div></div>' +
+    '<div class="stat blue"><div class="n">' + polas + '</div><div class="l">Arsip pola</div></div>';
+}
+
+function matches(d, q){
+  if (activeKind && d.kind !== activeKind) return false;
+  if (activeInst && d.instrument !== activeInst) return false;
+  if (activeTag && d.tags.indexOf(activeTag) < 0) return false;
+  if (!q) return true;
+  var hay = [d.date_label, d.instrument, d.tf, d.trade, d.konteks, d.bigpic || '', d.bacaan, d.hasil, d.whatif, d.pelajaran, d.tags.join(' ')].join(' ').toLowerCase();
+  return q.toLowerCase().split(/\s+/).every(function(w){ return hay.indexOf(w) >= 0; });
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+function render(){
+  document.querySelectorAll('#kindChips .chip').forEach(function(c){
+    c.classList.toggle('on', c.dataset.kind === activeKind);
+  });
+  document.querySelectorAll('#instChips .chip').forEach(function(c){
+    c.classList.toggle('on', c.textContent === activeInst);
+  });
+  document.querySelectorAll('#tagChips .chip').forEach(function(c){
+    c.classList.toggle('on', c.textContent === '#' + activeTag);
+  });
+  var q = qEl.value.trim();
+  currentList = DATA.filter(function(d){ return matches(d, q); })
+                    .sort(function(a,b){ return b.date.localeCompare(a.date); });
+  countEl.textContent = currentList.length + ' dari ' + DATA.length + ' chart';
+  if (!currentList.length){
+    grid.innerHTML = '<div class="empty">Nggak ada chart yang cocok. Coba kata kunci atau filter lain.</div>';
+    return;
+  }
+  grid.innerHTML = currentList.map(function(d, i){
+    var tags = d.tags.map(function(t){ return '<span class="tg" data-tag="' + esc(t) + '">' + '#' + esc(t) + '</span>'; }).join('');
+    var badge = d.kind === 'trade'
+      ? '<span class="badge">' + esc(d.trade) + '</span>'
+      : '<span class="badge pola">Pola · ' + esc(d.trade) + '</span>';
+    return '<article class="card" data-i="' + i + '">' +
+      '<div class="cover"><img src="' + d.img + '" alt="' + esc(d.instrument + ' ' + d.tf) + '" loading="lazy">' + badge + '</div>' +
+      '<div class="body">' +
+        '<h2>' + esc(d.instrument) + ' · <span class="tf">' + esc(d.tf) + '</span></h2>' +
+        '<div class="meta">' + esc(d.date_label) + '</div>' +
+        '<div class="row clamp">' + esc(d.konteks) + '</div>' +
+        '<div class="row lesson"><b>Pelajaran · </b>' + esc(d.pelajaran) + '</div>' +
+        '<div class="tags">' + tags + '</div>' +
+        '<div class="open">Buka detail →</div>' +
+      '</div></article>';
+  }).join('');
+  grid.querySelectorAll('.card').forEach(function(c){
+    c.onclick = function(){ openDetail(parseInt(c.dataset.i, 10)); };
+  });
+  grid.querySelectorAll('.tg').forEach(function(t){
+    t.onclick = function(ev){ ev.stopPropagation(); activeTag = t.dataset.tag; render(); };
+  });
+}
+
+function fld(k, v){
+  return v ? '<div class="fld"><div class="k">' + k + '</div><div class="v">' + esc(v) + '</div></div>' : '';
+}
+
+function openDetail(i){
+  currentIdx = i;
+  var d = currentList[i];
+  if (!d) return;
+  var tags = d.tags.map(function(t){ return '<span class="tg">#' + esc(t) + '</span>'; }).join('');
+  document.getElementById('panel').innerHTML =
+    '<div class="phead"><div>' +
+      '<h2>' + esc(d.instrument) + ' · <span class="tf">' + esc(d.tf) + '</span> · ' + esc(d.trade) + '</h2>' +
+    '</div><button class="x" id="xBtn" aria-label="Tutup">✕</button></div>' +
+    '<div class="meta">' + esc(d.date_label) + ' · ' + KIND_LABEL[d.kind] + '</div>' +
+    '<img src="' + d.img + '" alt="chart utama">' +
+    (d.img2 ? '<img src="' + d.img2 + '" alt="chart konteks">' : '') +
+    '<div class="pbody">' +
+      fld('Konteks', d.konteks) +
+      fld('Gambaran besar', d.bigpic) +
+      fld('Bacaan', d.bacaan) +
+      fld('Hasil', d.hasil) +
+      fld('What-if', d.whatif) +
+      '<div class="fld lesson"><div class="k">Pelajaran</div><div class="v">' + esc(d.pelajaran) + '</div></div>' +
+      '<div class="tags">' + tags + '</div>' +
+    '</div>' +
+    '<div class="pnav">' +
+      '<button id="prevBtn"' + (i <= 0 ? ' disabled' : '') + '>← Entri sebelumnya</button>' +
+      '<button id="nextBtn"' + (i >= currentList.length - 1 ? ' disabled' : '') + '>Entri berikutnya →</button>' +
+    '</div>';
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('modal').scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+  document.getElementById('xBtn').onclick = closeDetail;
+  document.getElementById('prevBtn').onclick = function(){ openDetail(currentIdx - 1); };
+  document.getElementById('nextBtn').onclick = function(){ openDetail(currentIdx + 1); };
+}
+
+function closeDetail(){
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('modal').addEventListener('click', function(e){
+  if (e.target === this) closeDetail();
+});
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape') closeDetail();
+  if (document.getElementById('modal').classList.contains('open')){
+    if (e.key === 'ArrowLeft' && currentIdx > 0) openDetail(currentIdx - 1);
+    if (e.key === 'ArrowRight' && currentIdx < currentList.length - 1) openDetail(currentIdx + 1);
+  }
+});
+qEl.addEventListener('input', render);
+buildChips();
+render();
+</script>
+</body>
+</html>
